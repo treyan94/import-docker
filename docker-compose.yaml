@@ -10,7 +10,7 @@ services:
     networks:
       - default
     volumes:
-      - ${IMPORT_SERVICE_PATH}:/var/www/html
+      - import-service:/var/www/html
     ports:
       - "80:80"
 
@@ -33,14 +33,14 @@ services:
     networks:
       - default
     volumes:
-      - ${IMPORT_SERVICE_PATH}:/var/www/html
+      - import-service:/var/www/html
 
   php-cli:
     image: php:8.3-cli
     networks:
       - default
     volumes:
-      - ${IMPORT_SERVICE_PATH}:/var/www/html
+      - import-service:/var/www/html
     working_dir: /var/www/html
 
   redis:
@@ -50,3 +50,9 @@ services:
 
 volumes:
   db-data:
+  import-service:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${IMPORT_SERVICE_PATH}
+      o: bind
